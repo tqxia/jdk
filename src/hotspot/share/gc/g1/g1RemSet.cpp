@@ -1766,6 +1766,8 @@ void G1RemSet::enqueue_for_reprocessing(CardValue* card_ptr) {
 void G1RemSet::print_periodic_summary_info(const char* header, uint period_count) {
   if ((G1SummarizeRSetStatsPeriod > 0) && log_is_enabled(Trace, gc, remset) &&
       (period_count % G1SummarizeRSetStatsPeriod == 0)) {
+      
+    double start = os::elapsedTime();
 
     G1RemSetSummary current;
     _prev_period_summary.subtract_from(&current);
@@ -1777,6 +1779,8 @@ void G1RemSet::print_periodic_summary_info(const char* header, uint period_count
     _prev_period_summary.print_on(&ls);
 
     _prev_period_summary.set(&current);
+
+    log_debug(gc, remset)("print rset periodic summary info takes: %f ms", (os::elapsedTime() - start) * 1000.0);
   }
 }
 
