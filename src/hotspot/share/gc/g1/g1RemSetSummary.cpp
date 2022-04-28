@@ -325,6 +325,14 @@ public:
                   proper_unit_for_byte_size(max_code_root_rem_set->code_roots_mem_size()),
                   max_code_root_rem_set->code_roots_list_length());
   }
+
+  void print_mem_usage_on(outputStream* out) {
+    out->print_cr(" Total per region rem sets sizes = " SIZE_FORMAT
+                  " Max = " SIZE_FORMAT " wasted = " SIZE_FORMAT,
+                  total_rs_mem_sz(),
+                  max_rs_mem_sz(),
+                  total_rs_wasted_mem_sz());
+  }
 };
 
 void G1RemSetSummary::print_on(outputStream* out) {
@@ -342,4 +350,10 @@ void G1RemSetSummary::print_on(outputStream* out) {
   HRRSStatsIter blk;
   G1CollectedHeap::heap()->heap_region_iterate(&blk);
   blk.print_summary_on(out);
+}
+
+void G1RemSetSummary::print_mem_usage_on(outputStream* out) {
+  HRRSStatsIter blk;
+  G1CollectedHeap::heap()->heap_region_iterate(&blk);
+  blk.print_mem_usage_on(out);
 }

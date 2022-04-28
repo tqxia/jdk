@@ -66,6 +66,8 @@ public:
   double sampling_task_vtime() const {
     return _sampling_task_vtime;
   }
+
+  static void print_mem_usage_on(outputStream* out);
 };
 
 #endif // SHARE_GC_G1_G1REMSETSUMMARY_HPP

@@ -1781,6 +1781,15 @@ void G1RemSet::print_periodic_summary_info(const char* header, uint period_count
     _prev_period_summary.set(&current);
 
     log_debug(gc, remset)("print rset periodic summary info takes: %f ms", (os::elapsedTime() - start) * 1000.0);
+  } else {
+    // If G1SummarizeRSetStatsPeriod is not set, try printing one-line summary to cover
+    // total rset memory usage, max rset size and total wasted size in each GC cycle.
+    LogTarget(Info, gc, remset) lt;
+    if (lt.is_enabled()) {
+      LogStream ls(lt);
+      ls.print("%s:", header);
+      G1RemSetSummary::print_mem_usage_on(&ls);
+    }
   }
 }
 
